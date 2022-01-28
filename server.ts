@@ -4,10 +4,12 @@ import * as express from 'express';
 import { Application } from 'express';
 
 import Server from './src/index';
+import ServerProperties from './src/util/ServerProperties'
+  ;
 
 const app: Application = express();
 const server: Server = new Server(app);
-const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const port: number = process.env.PORT ? ServerProperties.getPort() : 3000;
 
 app.listen(port, 'localhost', function () {
   console.info(`Server running on : http://localhost:${port}`);

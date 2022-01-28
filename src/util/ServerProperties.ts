@@ -1,19 +1,17 @@
 import * as PropertiesReader from 'properties-reader';
-class ServerProperties {
-    private SERVER_CONFIG_FILE: string = 'config/server_config.properties';
 
-    serverConfig!: any;
-    constructor() {
-        this.serverConfig = PropertiesReader(this.SERVER_CONFIG_FILE);
+class ServerProperties {
+
+    static serverConfig: any = PropertiesReader('config/server_config.properties');
+
+    public static getEnv(): string {
+        return ServerProperties.serverConfig.get('SERVER.NODE_ENV');
     }
-    public getEnv(): string {
-        return this.serverConfig.get('SERVER.NODE_ENV');
+    public static getPort(): number {
+        return ServerProperties.serverConfig.get('SERVER.PORT');
     }
-    public getPort(): number {
-        return this.serverConfig.get('SERVER.PORT');
-    }
-    public getRateLimitRequest(): number {
-        return this.serverConfig.get('SERVER.RATE_LIMIT_REQUEST');
+    public static getRateLimitRequest(): number {
+        return ServerProperties.serverConfig.get('SERVER.RATE_LIMIT_REQUEST');
     }
 }
-export default new ServerProperties();
+export default  ServerProperties;

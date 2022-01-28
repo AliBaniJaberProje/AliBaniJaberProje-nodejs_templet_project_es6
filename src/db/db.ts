@@ -1,29 +1,32 @@
 import  { Sequelize, Options } from 'sequelize';
-import * as PropertiesReader from 'properties-reader';
 import ServerProperties from '../util/ServerProperties';
+import { configGet, initConfig } from '@popovmp/config-json';
 
 class DataBaseConnector {
-  private DATA_BASE_CONFIG_FILE: string = 'config/db_config.properties';
-  private ERROR_MSG_DATA_BASE_CONFIG: string = 'Please check db_config.properties file';
+  private ERROR_MSG_DATA_BASE_CONFIG: string = 'Please check config.json file and server_config.properties';
   private dbPort!: number;
   private dbName!: string;
   private dbUserName!: string;
   private dbPassword!: string;
   private dbUrl!: string;
-  configDBReader!: any;
+  dialect!: string;
 
   public sequelize!: Sequelize;
   constructor() {
-    this.configDBReader = PropertiesReader(this.DATA_BASE_CONFIG_FILE);
+    initConfig('config/');
     this.readConfigProperties();
     this.validateParameter();
     this.connectDataBase();
   }
   private readConfigProperties(): void {
-    this.dbPort = Number(this.configDBReader.get('DB.PORT'));
-    this.dbName = this.configDBReader.get('DB.NAME');
-    this.dbUserName = this.configDBReader.get('DB.USERNAME');
-    this.dbPassword = this.configDBReader.get('DB.PASSWORD');
+    const env: string = ServerProperties.getEnv();
+    const databaseConfig: any = configGet(env);
+    console.log(databaseConfig);
+    this.dbPort = Number(databaseConfig['db_port']);
+    this.dbName = databaseConfig['database'];
+    this.dbUserName = databaseConfig['username'];
+    this.dbPassword = databaseConfig['password'];
+    this.dialect = databaseConfig['dialect'];
   }
   private validateParameter(): void {
     if (!this.dbUrl && !this.dbName && !this.dbUserName) {
@@ -33,7 +36,7 @@ class DataBaseConnector {
   }
   private connectDataBase(): void {
     const optionsObj: object = { benchmark: true, logging: console.log ,host: this.dbUrl,
-      dialect: 'mysql',
+      dialect: this.dialect,
       port: this.dbPort};
 
     const options: Options = optionsObj;

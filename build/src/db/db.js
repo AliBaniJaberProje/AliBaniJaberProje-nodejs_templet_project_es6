@@ -1,21 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const PropertiesReader = require("properties-reader");
+const ServerProperties_1 = require("../util/ServerProperties");
+const config_json_1 = require("@popovmp/config-json");
 class DataBaseConnector {
     constructor() {
-        this.DATA_BASE_CONFIG_FILE = 'config/db_config.properties';
-        this.ERROR_MSG_DATA_BASE_CONFIG = 'Please check db_config.properties file';
-        this.configDBReader = PropertiesReader(this.DATA_BASE_CONFIG_FILE);
+        this.ERROR_MSG_DATA_BASE_CONFIG = 'Please check config.json file and server_config.properties';
+        config_json_1.initConfig('config/');
         this.readConfigProperties();
         this.validateParameter();
         this.connectDataBase();
     }
     readConfigProperties() {
-        this.dbPort = Number(this.configDBReader.get('DB.PORT'));
-        this.dbName = this.configDBReader.get('DB.NAME');
-        this.dbUserName = this.configDBReader.get('DB.USERNAME');
-        this.dbPassword = this.configDBReader.get('DB.PASSWORD');
+        const env = ServerProperties_1.default.getEnv();
+        const databaseConfig = config_json_1.configGet(env);
+        console.log(databaseConfig);
+        this.dbPort = Number(databaseConfig['db_port']);
+        this.dbName = databaseConfig['database'];
+        this.dbUserName = databaseConfig['username'];
+        this.dbPassword = databaseConfig['password'];
+        this.dialect = databaseConfig['dialect'];
     }
     validateParameter() {
         if (!this.dbUrl && !this.dbName && !this.dbUserName) {
@@ -25,7 +29,7 @@ class DataBaseConnector {
     }
     connectDataBase() {
         const optionsObj = { benchmark: true, logging: console.log, host: this.dbUrl,
-            dialect: 'mysql',
+            dialect: this.dialect,
             port: this.dbPort };
         const options = optionsObj;
         this.sequelize = new sequelize_1.Sequelize(this.dbName, this.dbUserName, this.dbPassword, options);
