@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "root",
+    "password": "",
+    "database": "dev_db",
+    "host": "localhost",
+    "dialect": "mysql",
+    "db_port": 3306
+  },
+  "qa": {
+    "username": "root",
+    "password": "",
+    "database": "qa_db",
+    "host": "localhost",
+    "dialect": "mysql",
+    "db_port": 3306
+
+  },
+  "production": {
+    "username": "root",
+    "password": "",
+    "database": "prod_db",
+    "host": "localhost",
+    "dialect": "mysql",
+    "db_port": 3306
+
+  }
+}
