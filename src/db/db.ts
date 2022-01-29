@@ -1,6 +1,6 @@
 import  { Sequelize, Options } from 'sequelize';
 import ServerProperties from '../util/ServerProperties';
-import { configGet, initConfig } from '@popovmp/config-json';
+import { configGet, init } from '@popovmp/config-json';
 
 class DataBaseConnector {
   private ERROR_MSG_DATA_BASE_CONFIG: string = 'Please check config.json file and server_config.properties';
@@ -13,7 +13,7 @@ class DataBaseConnector {
 
   public sequelize!: Sequelize;
   constructor() {
-    initConfig('config/');
+    init('config/');
     this.readConfigProperties();
     this.validateParameter();
     this.connectDataBase();

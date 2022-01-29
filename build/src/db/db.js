@@ -6,7 +6,7 @@ const config_json_1 = require("@popovmp/config-json");
 class DataBaseConnector {
     constructor() {
         this.ERROR_MSG_DATA_BASE_CONFIG = 'Please check config.json file and server_config.properties';
-        config_json_1.initConfig('config/');
+        config_json_1.init('config/');
         this.readConfigProperties();
         this.validateParameter();
         this.connectDataBase();
