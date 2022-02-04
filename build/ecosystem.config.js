@@ -2,14 +2,13 @@
 module.exports = {
     apps: [
         {
-            name: 'API',
-            script: 'server.js',
-            instances: 2,
+            name: 'templet_node_typescript_mvc',
+            script: 'node build/server.js',
+            instances: 'MAX',
             watch: true,
             autostart: true,
             max_memory_restart: '1G',
-            env: { NODE_ENV: 'development' },
-            env_production: { NODE_ENV: 'development' },
+            version: 1.0
         },
     ],
 };

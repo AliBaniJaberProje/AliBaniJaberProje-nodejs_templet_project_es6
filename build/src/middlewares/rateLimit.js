@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const RateLimit = require("express-rate-limit");
-const env = process.env.NODE_ENV || 'dev';
-const rateLimitRequest = Number(process.env.RATE_LIMIT_TIME) || 15;
-const rateLimitTime = Number(process.env.RATE_LIMIT_REQUEST) || 100;
+const ServerProperties_1 = require("../util/ServerProperties");
+const env = ServerProperties_1.default.getEnv();
+const rateLimitRequest = ServerProperties_1.default.getRateLimitRequest();
+const rateLimitTime = ServerProperties_1.default.getRateLimitTime();
 exports.default = () => {
     if (env === 'production') {
         return new RateLimit({

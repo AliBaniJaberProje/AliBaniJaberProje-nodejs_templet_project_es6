@@ -5,16 +5,33 @@ dotenv.config();
 const express = require("express");
 const index_1 = require("./src/index");
 const ServerProperties_1 = require("./src/util/ServerProperties");
+const cluster = require("cluster");
+const os_1 = require("os");
 const app = express();
 const server = new index_1.default(app);
-const port = process.env.PORT ? ServerProperties_1.default.getPort() : 3000;
-app.listen(port, 'localhost', function () {
-    console.info(`Server running on : http://localhost:${port}`);
-}).on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-        console.log('server startup error: address already in use');
+const port = ServerProperties_1.default.getPort();
+if (ServerProperties_1.default.ismMultiProcessesMode()) {
+    if (cluster.isMaster) {
+        console.log(`Total Number of CPU Counts is ${(0, os_1.cpus)().length}`);
+        for (let i = 0; i < (0, os_1.cpus)().length; i++) {
+            cluster.fork();
+        }
+        cluster.on('online', worker => {
+            console.log(`Worker Id is ${worker.id} and PID is ${worker.process.pid}`);
+        });
+        cluster.on('exit', worker => {
+            console.log(`Worker Id ${worker.id} and PID is ${worker.process.pid} is offline`);
+            console.log("Let's fork new worker!");
+            cluster.fork();
+        });
+        cluster.on('errored', (workerId) => {
+            console.log('bay' + workerId.pid);
+        });
     }
     else {
-        console.log(err);
+        server.runServer(port);
     }
-});
+}
+else {
+    server.runServer(port);
+}

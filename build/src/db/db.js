@@ -6,14 +6,20 @@ const config_json_1 = require("@popovmp/config-json");
 class DataBaseConnector {
     constructor() {
         this.ERROR_MSG_DATA_BASE_CONFIG = 'Please check config.json file and server_config.properties';
-        config_json_1.init('config/');
+        (0, config_json_1.init)('config/');
         this.readConfigProperties();
         this.validateParameter();
         this.connectDataBase();
     }
+    static getInstance() {
+        if (!DataBaseConnector.instance) {
+            DataBaseConnector.instance = new DataBaseConnector();
+        }
+        return this.instance;
+    }
     readConfigProperties() {
         const env = ServerProperties_1.default.getEnv();
-        const databaseConfig = config_json_1.configGet(env);
+        const databaseConfig = (0, config_json_1.configGet)(env);
         console.log(databaseConfig);
         this.dbPort = Number(databaseConfig['db_port']);
         this.dbName = databaseConfig['database'];
@@ -27,6 +33,7 @@ class DataBaseConnector {
             process.exit(0);
         }
     }
+    //(...msg) => console.log(msg)
     connectDataBase() {
         const optionsObj = { benchmark: true, logging: console.log, host: this.dbUrl,
             dialect: this.dialect,
@@ -43,4 +50,4 @@ class DataBaseConnector {
         });
     }
 }
-exports.default = new DataBaseConnector().sequelize;
+exports.default = DataBaseConnector.getInstance().sequelize;

@@ -16,6 +16,7 @@ class Server {
     constructor(app) {
         this.config(app);
         new routes_1.default(app);
+        this.app = app;
     }
     config(app) {
         // const swaggerOptions = {
@@ -34,11 +35,23 @@ class Server {
         // app.use("/api-docs",swaggerUi.server,swaggerUi.setup(swaggerDocs));
         const accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), { flags: 'a' });
         app.use(morgan('combined', { stream: accessLogStream }));
-        app.use(express_1.urlencoded({ extended: true }));
-        app.use(express_1.json());
+        app.use((0, express_1.urlencoded)({ extended: true }));
+        app.use((0, express_1.json)());
         app.use(helmet());
-        app.use(rateLimit_1.default()); //  apply to all requests
+        app.use((0, rateLimit_1.default)()); //  apply to all requests
         app.use(errorHandler_1.unCoughtErrorHandler);
+    }
+    runServer(port) {
+        this.app.listen(port, 'localhost', function () {
+            console.info(`Server running on : http://localhost:${port}`);
+        }).on('error', (err) => {
+            if (err.code === 'EADDRINUSE') {
+                console.log('server startup error: address already in use');
+            }
+            else {
+                console.log(err);
+            }
+        });
     }
 }
 exports.default = Server;

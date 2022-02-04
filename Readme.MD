@@ -7,7 +7,7 @@
 
 If you found this project useful, then please consider giving it a ⭐️ on Github and sharing it with your friends via social media.
 
-[Node.js](https://nodejs.org/en/), [mysql](https://www.postgresql.org/download/)
+[Node.js], [mysql]
 
 
 

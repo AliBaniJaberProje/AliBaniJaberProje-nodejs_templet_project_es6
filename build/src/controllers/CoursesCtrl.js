@@ -21,7 +21,7 @@ class CoursesCtrl {
                 res.status(http_status_codes_1.StatusCodes.ACCEPTED).json(courseList);
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, 'Fetch All Courses failed.');
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, 'Fetch All Courses failed.');
             }
         });
     }
@@ -37,7 +37,7 @@ class CoursesCtrl {
                 }
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, `Course ${req.params.id} is failed.`);
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, `Course ${req.params.id} is failed.`);
             }
         });
     }

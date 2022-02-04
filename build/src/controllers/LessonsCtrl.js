@@ -20,7 +20,7 @@ class LessonsCtrl {
                 res.json(lessons);
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, 'Fetch All Lessons failed.');
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, 'Fetch All Lessons failed.');
             }
         });
     }
@@ -31,7 +31,7 @@ class LessonsCtrl {
                 res.json(lesson);
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, `Lessons in course ${req.params.id} failed.`);
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, `Lessons in course ${req.params.id} failed.`);
             }
         });
     }
@@ -47,7 +47,7 @@ class LessonsCtrl {
                 }
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, `Lesson ${req.params.id} failed.`);
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, `Lesson ${req.params.id} failed.`);
             }
         });
     }
@@ -58,7 +58,7 @@ class LessonsCtrl {
                 res.json(result);
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, 'Creation of Lesson failed.');
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, 'Creation of Lesson failed.');
             }
         });
     }
@@ -70,7 +70,7 @@ class LessonsCtrl {
                 res.json(result);
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, `updation of Lesson ${req.params.id} is failed.`);
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, `updation of Lesson ${req.params.id} is failed.`);
             }
         });
     }
@@ -82,7 +82,7 @@ class LessonsCtrl {
                 res.json(result);
             }
             catch (error) {
-                errorHandler_1.apiErrorHandler(error, req, res, `deletion of Lesson ${req.params.id}  is failed.`);
+                (0, errorHandler_1.apiErrorHandler)(error, req, res, `deletion of Lesson ${req.params.id}  is failed.`);
             }
         });
     }

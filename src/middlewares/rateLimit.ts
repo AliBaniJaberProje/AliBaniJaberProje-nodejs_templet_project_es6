@@ -1,8 +1,8 @@
 import * as RateLimit from 'express-rate-limit';
-
-const env = process.env.NODE_ENV || 'dev';
-const rateLimitRequest = Number(process.env.RATE_LIMIT_TIME) || 15;
-const rateLimitTime = Number(process.env.RATE_LIMIT_REQUEST) || 100;
+import ServerProperties from '../util/ServerProperties';
+const env = ServerProperties.getEnv();
+const rateLimitRequest = ServerProperties.getRateLimitRequest();
+const rateLimitTime = ServerProperties.getRateLimitTime();
 
 export default () => {
   if (env === 'production') {

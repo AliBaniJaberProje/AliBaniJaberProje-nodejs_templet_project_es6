@@ -1,11 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import * as winston from 'winston';
+import path from 'path';
+const tsFormat = () => (new Date().toISOString());
 
-const file = new winston.transports.File({
-  filename: '../logs/error.log',
-  level: 'error',
-  handleExceptions: true,
-
+const errorLog =  winston.createLogger({
+  transports: [
+      new winston.transports.File({
+        filename: '../logs/errors.log',
+        level: 'info'
+      })
+  ]
 });
 
 export function unCoughtErrorHandler(
@@ -14,7 +18,7 @@ export function unCoughtErrorHandler(
   res: Response,
   next: NextFunction,
 ) {
-  winston.error(JSON.stringify(err));
+  errorLog.info(err);
   res.end({ error: err });
 }
 
@@ -25,6 +29,6 @@ export function apiErrorHandler(
   message: string,
 ) {
   const error: object = { Message: message, Request: req, Stack: err };
-  winston.error(JSON.stringify(error));
+  errorLog.info(error);
   res.json({ Message: message });
 }

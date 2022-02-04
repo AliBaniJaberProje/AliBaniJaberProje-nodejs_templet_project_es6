@@ -9,7 +9,10 @@ const courses = require('./courses.json');
 Course_1.Course.sync({ force: true })
     .then(() => Lesson_1.Lesson.sync({ force: true }))
     .then(() => console.log('Database cleaned'))
-    .then(() => Course_1.Course.bulkCreate(courses, { include: [{ model: Lesson_1.Lesson, as: 'lessons' }] }))
+    .then(() => {
+    // @ts-ignore
+    return Course_1.Course.bulkCreate(courses, { include: [{ model: Lesson_1.Lesson, as: 'lessons' }] });
+})
     .then(() => {
     console.log('############# seeding completed #################');
     process.exit();

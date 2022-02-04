@@ -4,7 +4,7 @@ const express_1 = require("express");
 const CoursesCtrl_1 = require("../controllers/CoursesCtrl");
 class CourseRoutes {
     constructor() {
-        this.router = express_1.Router();
+        this.router = (0, express_1.Router)();
         this.coursesCtrl = new CoursesCtrl_1.default();
         this.intializeRoutes();
     }

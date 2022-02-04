@@ -15,9 +15,11 @@ import Routes from './routes';
 // app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 
 export default class Server {
+  private app!: Application;
   constructor(app: Application) {
     this.config(app);
     new Routes(app);
+    this.app = app;
   }
 
   public config(app: Application): void {
@@ -45,6 +47,17 @@ export default class Server {
     app.use(helmet());
     app.use(rateLimiter()); //  apply to all requests
     app.use(unCoughtErrorHandler);
+  }
+  public runServer(port: number) {
+    this.app.listen(port, 'localhost', function () {
+      console.info(`Server running on : http://localhost:${port}`);
+    }).on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        console.log('server startup error: address already in use');
+      } else {
+        console.log(err);
+      }
+    });
   }
 }
 

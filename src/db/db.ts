@@ -1,6 +1,7 @@
 import  { Sequelize, Options } from 'sequelize';
 import ServerProperties from '../util/ServerProperties';
 import { configGet, init } from '@popovmp/config-json';
+import { Semaphore } from 'await-semaphore';
 
 class DataBaseConnector {
   private ERROR_MSG_DATA_BASE_CONFIG: string = 'Please check config.json file and server_config.properties';
@@ -10,13 +11,20 @@ class DataBaseConnector {
   private dbPassword!: string;
   private dbUrl!: string;
   dialect!: string;
+  private static instance: DataBaseConnector;
 
   public sequelize!: Sequelize;
-  constructor() {
+  private constructor() {
     init('config/');
     this.readConfigProperties();
     this.validateParameter();
     this.connectDataBase();
+  }
+   public static getInstance(): DataBaseConnector {
+       if (!DataBaseConnector.instance) {
+         DataBaseConnector.instance = new DataBaseConnector();
+       }
+    return this.instance;
   }
   private readConfigProperties(): void {
     const env: string = ServerProperties.getEnv();
@@ -34,8 +42,9 @@ class DataBaseConnector {
       process.exit(0);
     }
   }
+  //(...msg) => console.log(msg)
   private connectDataBase(): void {
-    const optionsObj: object = { benchmark: true, logging: console.log ,host: this.dbUrl,
+    const optionsObj: object = { benchmark: true, logging: console.log , host: this.dbUrl,
       dialect: this.dialect,
       port: this.dbPort};
 
@@ -51,6 +60,6 @@ class DataBaseConnector {
         });
   }
 }
-export default new DataBaseConnector().sequelize;
+export default  DataBaseConnector.getInstance().sequelize;
 
 

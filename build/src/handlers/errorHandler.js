@@ -2,19 +2,23 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.apiErrorHandler = exports.unCoughtErrorHandler = void 0;
 const winston = require("winston");
-const file = new winston.transports.File({
-    filename: '../logs/error.log',
-    level: 'error',
-    handleExceptions: true,
+const tsFormat = () => (new Date().toISOString());
+const errorLog = winston.createLogger({
+    transports: [
+        new winston.transports.File({
+            filename: '../logs/errors.log',
+            level: 'info'
+        })
+    ]
 });
 function unCoughtErrorHandler(err, req, res, next) {
-    winston.error(JSON.stringify(err));
+    errorLog.info(err);
     res.end({ error: err });
 }
 exports.unCoughtErrorHandler = unCoughtErrorHandler;
 function apiErrorHandler(err, req, res, message) {
     const error = { Message: message, Request: req, Stack: err };
-    winston.error(JSON.stringify(error));
+    errorLog.info(error);
     res.json({ Message: message });
 }
 exports.apiErrorHandler = apiErrorHandler;

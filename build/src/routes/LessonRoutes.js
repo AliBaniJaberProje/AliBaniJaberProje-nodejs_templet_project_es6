@@ -5,7 +5,7 @@ const LessonsCtrl_1 = require("../controllers/LessonsCtrl");
 const lessonValidator_1 = require("../validators/lessonValidator");
 class LessonRoutes {
     constructor() {
-        this.router = express_1.Router();
+        this.router = (0, express_1.Router)();
         this.lessonsCtrl = new LessonsCtrl_1.default();
         this.lessonValidator = new lessonValidator_1.LessonValidator();
         this.intializeRoutes();

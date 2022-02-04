@@ -13,5 +13,11 @@ class ServerProperties {
     public static getRateLimitRequest(): number {
         return ServerProperties.serverConfig.get('SERVER.RATE_LIMIT_REQUEST');
     }
+    public static ismMultiProcessesMode(): boolean {
+        return ServerProperties.serverConfig.get('SERVER.MULTI_PROCESSES_MODE');
+    }
+    public static getRateLimitTime(): number {
+        return ServerProperties.serverConfig.get('SERVER.RATE_LIMIT_TIME');
+    }
 }
 export default  ServerProperties;
