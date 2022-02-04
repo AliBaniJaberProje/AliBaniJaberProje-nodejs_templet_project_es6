@@ -19,7 +19,7 @@ export default class UsersCtrl {
 
     async createUser(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req['value']['body'])
+            console.log(req['value']['body']);
             const result = await UsersRepo.createUser(req['value']['body']);
 
             res.status(StatusCodes.CREATED).json(result);

@@ -9,7 +9,8 @@
     "watch": "tsc -w",
     "transpile": "tsc",
     "seed": "npm run transpile && node build/src/db/seed.js",
-    "lint": "tslint -c tslint.json -p tsconfig.json"
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "db:migrate": "node build/migration.js"
   },
   "engines": {
     "node": ">=8.0"
@@ -60,6 +61,7 @@
     "sequelize": "^6.6.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
+    "umzug": "^3.0.0",
     "winston": "^3.3.3"
   },
   "hooks": {

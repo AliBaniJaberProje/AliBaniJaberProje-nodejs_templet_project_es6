@@ -42,9 +42,9 @@ class DataBaseConnector {
       process.exit(0);
     }
   }
-  //(...msg) => console.log(msg)
-  private connectDataBase(): void {
-    const optionsObj: object = { benchmark: true, logging: console.log , host: this.dbUrl,
+
+  private async connectDataBase()  {
+    const optionsObj: object = { benchmark: true, logging:  console.log , host: this.dbUrl,
       dialect: this.dialect,
       port: this.dbPort};
 
@@ -58,6 +58,7 @@ class DataBaseConnector {
         .catch(err => {
           console.error('Unable to connect to the database:', err);
         });
+    await this.sequelize.sync();
   }
 }
 export default  DataBaseConnector.getInstance().sequelize;
